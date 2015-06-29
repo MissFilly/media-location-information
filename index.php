@@ -4,16 +4,23 @@
  use MetzWeb\Instagram\Instagram;
 
  $app = new Silex\Application();
+
+ // Detect environment (default: prod) by checking for the existence of $app_env
+ if (isset($app_env) && in_array($app_env, array('prod','dev','test')))
+     $app['env'] = $app_env;
+ else
+     $app['env'] = 'prod';
+
  // Please set to false in a production environment
  $app['debug'] = true;
  
  function getInstagramData($mediaid) {
-    /**
+    /*
         Uses Instagram-PHP-API to retrieve data
         from Instagram for a particular media ID.
     */
 
-    /**
+    /*
         These credentials should be private and kept in a configuration
         file separated from the code. Right now they are kept here for simplicity.
     */
@@ -27,6 +34,11 @@
  } 
 
  function getNominatimData($media_location) {
+    /*
+        Tries to retrieve more information
+        about the given geographic coordinates,
+        using Nominatim's reverse geocoding.
+    */
     $curl = new \Ivory\HttpAdapter\CurlHttpAdapter();
     $geocoder = new \Geocoder\Provider\Nominatim($curl, 'http://open.mapquestapi.com/nominatim/v1/');
 
@@ -51,12 +63,14 @@
     $mediainfo = getInstagramData($mediaid);
     $responsecode = $mediainfo->meta->code;
 
+    /* If Instagram's response is not successful, raise the error. */
     if ($responsecode !== 200) {
         $app->abort($responsecode, $mediainfo->meta->error_message);
     }
     
     $media_location = $mediainfo->data->location;
 
+    /* If the media object doesn't contain location information, raise 404. */
     if($media_location === NULL) {
         $app->abort(404, 'No location information was found for this media ID.');
     }
@@ -64,9 +78,13 @@
     $instagram_data = array('id' => $mediainfo->data->id, 'location' => $media_location);
 
     $location_data = getNominatimData($media_location);
-    
+
+    /** Merge Instagram's and Nominatim's information. */
     $complete_data = array_merge($instagram_data, $location_data);
     return $app->json($complete_data, 200);
  });
  
- $app->run();
+if ('test' == $app['env'])
+    return $app;
+else
+    $app->run();

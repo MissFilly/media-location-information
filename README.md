@@ -44,7 +44,18 @@ Now if you browse `http://localhost:8080/media/764`, you should get a response l
         "postal_code": "60654",
         "country": "United States of America"
     }
+
+## Run tests
+
+    $ vendor/bin/phpunit
+    PHPUnit 4.7.5 by Sebastian Bergmann and contributors.
     
+    .
+    
+    Time: 8.77 seconds, Memory: 7.25Mb
+    
+    OK (1 test, 3 assertions)
+
 ## Code explanation
 
 I used a [third-party library](https://github.com/cosenary/Instagram-PHP-API)
