@@ -1,5 +1,5 @@
 <?php
- require_once __DIR__.'/../vendor/autoload.php';
+ require_once __DIR__.'/vendor/autoload.php';
  
  use MetzWeb\Instagram\Instagram;
 
@@ -8,6 +8,15 @@
  $app['debug'] = true;
  
  function getInstagramData($mediaid) {
+    /**
+        Uses Instagram-PHP-API to retrieve data
+        from Instagram for a particular media ID.
+    */
+
+    /**
+        These credentials should be private and kept in a configuration
+        file separated from the code. Right now they are kept here for simplicity.
+    */
     $instagram = new Instagram(array(
 	    'apiKey'      => 'de9fb3e8f248428e9e56733ed74c7010',
 	    'apiSecret'   => 'bc3a9f6313f3491aa109de875602293b',
@@ -39,7 +48,7 @@
 
  $app->get('/media/{mediaid}', function (Silex\Application $app, $mediaid)  {
     
-    $mediainfo = getInstagramData($mediaid); 
+    $mediainfo = getInstagramData($mediaid);
     $responsecode = $mediainfo->meta->code;
 
     if ($responsecode !== 200) {
