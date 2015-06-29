@@ -43,8 +43,8 @@
     $geocoder = new \Geocoder\Provider\Nominatim($curl, 'http://open.mapquestapi.com/nominatim/v1/');
 
     try {
-        $reverselocation = $geocoder->reverse($media_location->latitude, $media_location->longitude);
-        $address = $reverselocation->first();
+        $reverse_location = $geocoder->reverse($media_location->latitude, $media_location->longitude);
+        $address = $reverse_location->first();
         $location_data = array('street_name' => $address->getStreetName(),
                                'street_number' => $address->getStreetNumber(),
                                'sublocality' => $address->getSublocality(),
@@ -60,22 +60,22 @@
 
  $app->get('/media/{mediaid}', function (Silex\Application $app, $mediaid)  {
     
-    $mediainfo = getInstagramData($mediaid);
-    $responsecode = $mediainfo->meta->code;
+    $media_info = getInstagramData($mediaid);
+    $response_code = $media_info->meta->code;
 
     /* If Instagram's response is not successful, raise the error. */
-    if ($responsecode !== 200) {
-        $app->abort($responsecode, $mediainfo->meta->error_message);
+    if ($response_code !== 200) {
+        $app->abort($response_code, $media_info->meta->error_message);
     }
     
-    $media_location = $mediainfo->data->location;
+    $media_location = $media_info->data->location;
 
     /* If the media object doesn't contain location information, return 404. */
     if($media_location === NULL) {
         $app->abort(404, 'No location information was found for this media ID.');
     }
 
-    $instagram_data = array('id' => $mediainfo->data->id, 'location' => $media_location);
+    $instagram_data = array('id' => $media_info->data->id, 'location' => $media_location);
 
     $location_data = getNominatimData($media_location);
 
