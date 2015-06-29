@@ -15,11 +15,6 @@
 	    'apiCallback' => 'http://localhost:8080'
 	));
 
-    $code = $_GET['code'];
-    $data = $instagram->getOAuthToken($code);
-
-    $instagram->setAccessToken($data);
-
     $mediainfo = $instagram->getMedia($mediaid);
     $responsecode = $mediainfo->meta->code;
 
@@ -27,13 +22,32 @@
         $app->abort($responsecode, $mediainfo->meta->error_message);
     }
     
-    $medialocation = $mediainfo->data->location;
+    $media_location = $mediainfo->data->location;
 
-    if($medialocation === NULL) {
+    if($media_location === NULL) {
         $app->abort(404, 'No location information was found for this media ID.');
     }
+
+    $instagram_data = array('id' => $mediainfo->data->id, 'location' => $media_location);
+
+    $curl = new \Ivory\HttpAdapter\CurlHttpAdapter();
+    $geocoder = new \Geocoder\Provider\Nominatim($curl, 'http://open.mapquestapi.com/nominatim/v1/');
+
+    try {
+        $reverselocation = $geocoder->reverse($media_location->latitude, $media_location->longitude);
+        $address = $reverselocation->first();
+        $location_data = array('street_name' => $address->getStreetName(),
+                               'street_number' => $address->getStreetNumber(),
+                               'sublocality' => $address->getSublocality(),
+                               'locality' => $address->getLocality(),
+                               'postal_code' => $address->getPostalCode(),
+                               'country' => $address->getCountry()->getName());
+    } catch (Exception $e) {
+        $location_data = array();
+    }
     
-    return $app->json($mediainfo);
+    $complete_data = array_merge($instagram_data, $location_data);
+    return $app->json($complete_data, 200);
  });
  
  $app->run();
