@@ -14,7 +14,7 @@
  // Please set to false in a production environment
  $app['debug'] = true;
  
- function getInstagramData($mediaid) {
+ function getInstagramData($media_id) {
     /*
         Uses Instagram-PHP-API to retrieve data
         from Instagram for a particular media ID.
@@ -25,12 +25,12 @@
         file separated from the code. Right now they are kept here for simplicity.
     */
     $instagram = new Instagram(array(
-	    'apiKey'      => 'de9fb3e8f248428e9e56733ed74c7010',
-	    'apiSecret'   => 'bc3a9f6313f3491aa109de875602293b',
-	    'apiCallback' => 'http://localhost:8080'
-	));
+        'apiKey'      => 'de9fb3e8f248428e9e56733ed74c7010',
+        'apiSecret'   => 'bc3a9f6313f3491aa109de875602293b',
+        'apiCallback' => 'http://localhost:8080'
+    ));
 
-    return $instagram->getMedia($mediaid);
+    return $instagram->getMedia($media_id);
  } 
 
  function getNominatimData($media_location) {
@@ -58,9 +58,13 @@
     return $location_data;
  }
 
- $app->get('/media/{mediaid}', function (Silex\Application $app, $mediaid)  {
+ $app->get('/', function() {
+    return 'Use the `/media/{media_id}` endpoint.';
+ });
+
+ $app->get('/media/{media_id}', function (Silex\Application $app, $media_id) {
     
-    $media_info = getInstagramData($mediaid);
+    $media_info = getInstagramData($media_id);
     $response_code = $media_info->meta->code;
 
     /* If Instagram's response is not successful, raise the error. */
