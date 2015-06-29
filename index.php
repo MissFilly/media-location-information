@@ -7,29 +7,17 @@
  // Please set to false in a production environment
  $app['debug'] = true;
  
- $app->get('/media/{mediaid}', function (Silex\Application $app, $mediaid)  {
-
+ function getInstagramData($mediaid) {
     $instagram = new Instagram(array(
 	    'apiKey'      => 'de9fb3e8f248428e9e56733ed74c7010',
 	    'apiSecret'   => 'bc3a9f6313f3491aa109de875602293b',
 	    'apiCallback' => 'http://localhost:8080'
 	));
 
-    $mediainfo = $instagram->getMedia($mediaid);
-    $responsecode = $mediainfo->meta->code;
+    return $instagram->getMedia($mediaid);
+ } 
 
-    if ($responsecode !== 200) {
-        $app->abort($responsecode, $mediainfo->meta->error_message);
-    }
-    
-    $media_location = $mediainfo->data->location;
-
-    if($media_location === NULL) {
-        $app->abort(404, 'No location information was found for this media ID.');
-    }
-
-    $instagram_data = array('id' => $mediainfo->data->id, 'location' => $media_location);
-
+ function getNominatimData($media_location) {
     $curl = new \Ivory\HttpAdapter\CurlHttpAdapter();
     $geocoder = new \Geocoder\Provider\Nominatim($curl, 'http://open.mapquestapi.com/nominatim/v1/');
 
@@ -45,6 +33,28 @@
     } catch (Exception $e) {
         $location_data = array();
     }
+  
+    return $location_data;
+ }
+
+ $app->get('/media/{mediaid}', function (Silex\Application $app, $mediaid)  {
+    
+    $mediainfo = getInstagramData($mediaid); 
+    $responsecode = $mediainfo->meta->code;
+
+    if ($responsecode !== 200) {
+        $app->abort($responsecode, $mediainfo->meta->error_message);
+    }
+    
+    $media_location = $mediainfo->data->location;
+
+    if($media_location === NULL) {
+        $app->abort(404, 'No location information was found for this media ID.');
+    }
+
+    $instagram_data = array('id' => $mediainfo->data->id, 'location' => $media_location);
+
+    $location_data = getNominatimData($media_location);
     
     $complete_data = array_merge($instagram_data, $location_data);
     return $app->json($complete_data, 200);
