@@ -1,11 +1,7 @@
 ## Requirements
 
 - [PHP](http://php.net/manual/en/install.php)
-
-In Linux you may also need to install the following packages:
-
-    $ sudo apt-get install curl libcurl3 libcurl3-dev php5-curl
-
+- [cURL](http://curl.haxx.se/docs/install.html)
 
 ## Setup
 
@@ -18,6 +14,15 @@ Download [Composer](https://getcomposer.org/download/) and use it to download th
     $ curl -sS https://getcomposer.org/installer | php
     $ php composer.phar update
 
+In Linux, if this problem arises:
+
+    Problem 1
+        - Installation request for cosenary/instagram ~2.3 -> satisfiable by cosenary/instagram[v2.3].
+        - cosenary/instagram v2.3 requires ext-curl * -> the requested PHP extension curl is missing from your system
+
+install the following packages:
+
+    $ sudo apt-get install curl libcurl3 libcurl3-dev php5-curl
 
 ## Test it
 
@@ -58,6 +63,12 @@ Now if you browse `http://localhost:8080/media/764`, you should get a response l
 
 ## Code explanation
 
+I followed [this tutorial](http://sleep-er.co.uk/blog/2013/Creating-a-simple-REST-application-with-Silex/)
+for the initial setup,
+and [this one](http://whateverthing.com/blog/2013/09/01/quick-web-apps-part-five/) for writing the unit test.
+
+The code and the instructions were tested under OSX 10.10.1 and Linux Mint 17.1.
+
 I used a [third-party library](https://github.com/cosenary/Instagram-PHP-API)
 to get Instagram data. This library is but a wrapper that simplifies the access
 to the Instagram API. In this particular case, I used the `getMedia` method, which hits the
@@ -68,7 +79,7 @@ location information from Instagram, if the previously mentioned API call
 doesn't return a successful response, this application should reflect the error.
 That is also the case when the call to the Instagram API is successful, but
 the media object doesn't contain any location information. In that case,
-I raised a 404 response.
+I return a 404 response code.
 
 For the sake of completeness and readability, I used reverse geocoding through
 [Nominatim](http://open.mapquestapi.com/nominatim/#reverse) to get more data

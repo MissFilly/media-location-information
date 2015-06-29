@@ -70,7 +70,7 @@
     
     $media_location = $mediainfo->data->location;
 
-    /* If the media object doesn't contain location information, raise 404. */
+    /* If the media object doesn't contain location information, return 404. */
     if($media_location === NULL) {
         $app->abort(404, 'No location information was found for this media ID.');
     }
@@ -79,7 +79,7 @@
 
     $location_data = getNominatimData($media_location);
 
-    /** Merge Instagram's and Nominatim's information. */
+    /* Merge Instagram's and Nominatim's information. */
     $complete_data = array_merge($instagram_data, $location_data);
     return $app->json($complete_data, 200);
  });
