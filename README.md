@@ -28,7 +28,7 @@ install the following packages:
 
 Run the PHP built-in server:
 
-    $ php -S localhost:8080 index.php
+    $ php -S localhost:8080 web/index.php
     
 Now if you browse `http://localhost:8080/media/764`, you should get a response like:
 
@@ -66,6 +66,11 @@ Now if you browse `http://localhost:8080/media/764`, you should get a response l
 I followed [this tutorial](http://sleep-er.co.uk/blog/2013/Creating-a-simple-REST-application-with-Silex/)
 for the initial setup,
 and [this one](http://whateverthing.com/blog/2013/09/01/quick-web-apps-part-five/) for writing the unit test.
+
+For improving the application's project structure I read
+[this post](http://php-and-symfony.matthiasnoback.nl/2012/01/silex-getting-your-project-structure-right/),
+[these slides](http://www.slideshare.net/ctankersley/complex-sites-with-silex) and used
+[this project](https://github.com/willgarcia/silex-api-boilerplate) as boilerplate.
 
 The code and the instructions were tested under OSX 10.10.1 and Linux Mint 17.1.
 
