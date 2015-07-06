@@ -77,6 +77,11 @@ and [these slides](http://www.slideshare.net/ctankersley/complex-sites-with-sile
 
 The code and the instructions were tested under OSX 10.10.1 and Linux Mint 17.1.
 
+The `app/routing.php` file maps a route pattern with a controller, i.e., it determines
+the action (`Controller`) to be taken when a URL is accessed. `app/app.php` is the
+bootstrap file that returns an instance of `Silex\Application` that uses the
+previously mentioned routes. `web/index.php` runs that application.
+
 I used a [third-party library](https://github.com/cosenary/Instagram-PHP-API)
 to get Instagram data. This library is but a wrapper that simplifies the access
 to the Instagram API. In this particular case, I used the `getMedia` method, which hits the

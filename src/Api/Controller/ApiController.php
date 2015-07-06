@@ -11,10 +11,12 @@ class ApiController
     /**
      * Uses Instagram-PHP-API to retrieve data
      * from Instagram for a particular media ID.
+     * It uses the Client ID and Client Secret
+     * defined in `instagram_credentials.php`.
      */
     private function getInstagramData($media_id)
     {
-        $instagram = new Instagram(require __DIR__ . '/instagram_credentials.php');
+        $instagram = new Instagram(require __DIR__ . '/../../../app/instagram_credentials.php');
         return $instagram->getMedia($media_id);
     }
 
