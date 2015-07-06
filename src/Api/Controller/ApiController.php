@@ -2,9 +2,9 @@
 
 namespace Api\Controller;
 
+use MetzWeb\Instagram\Instagram;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use MetzWeb\Instagram\Instagram;
 
 class ApiController
 {
@@ -15,11 +15,7 @@ class ApiController
          * from Instagram for a particular media ID.
          */
 
-        $instagram = new Instagram(array(
-            'apiKey' => 'de9fb3e8f248428e9e56733ed74c7010',
-            'apiSecret' => 'bc3a9f6313f3491aa109de875602293b',
-            'apiCallback' => 'http://localhost:8080'
-        ));
+        $instagram = new Instagram(require __DIR__ . '/instagram_credentials.php');
         return $instagram->getMedia($media_id);
     }
 

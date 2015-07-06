@@ -5,24 +5,27 @@
 
 ## Setup
 
-Clone the repository:
+* Clone the repository:
 
-    $ git clone https://github.com/MissFilly/media-location-information.git && cd media-location-information
+        $ git clone https://github.com/MissFilly/media-location-information.git && cd media-location-information
     
-Download [Composer](https://getcomposer.org/download/) and use it to download the dependencies:
+* Download [Composer](https://getcomposer.org/download/) and use it to download the dependencies:
 
-    $ curl -sS https://getcomposer.org/installer | php
-    $ php composer.phar update
+        $ curl -sS https://getcomposer.org/installer | php
+        $ php composer.phar update
 
-In Linux, if this problem arises:
+    In Linux, if this problem arises:
 
-    Problem 1
-        - Installation request for cosenary/instagram ~2.3 -> satisfiable by cosenary/instagram[v2.3].
-        - cosenary/instagram v2.3 requires ext-curl * -> the requested PHP extension curl is missing from your system
+        Problem 1
+            - Installation request for cosenary/instagram ~2.3 -> satisfiable by cosenary/instagram[v2.3].
+            - cosenary/instagram v2.3 requires ext-curl * -> the requested PHP extension curl is missing from your system
 
-install the following packages:
+    install the following packages:
 
-    $ sudo apt-get install curl libcurl3 libcurl3-dev php5-curl
+        $ sudo apt-get install curl libcurl3 libcurl3-dev php5-curl
+
+* Use your own [Instagram API credentials](https://instagram.com/developer/register/) 
+in the `src/Api/Controller/instagram_credentials.php` file.
 
 ## Test it
 
