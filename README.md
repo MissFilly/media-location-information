@@ -52,14 +52,14 @@ Now if you browse `http://localhost:8080/media/764`, you should get a response l
 
 ## Run tests
 
-    $ vendor/bin/phpunit
-    PHPUnit 4.7.5 by Sebastian Bergmann and contributors.
-    
-    .
-    
-    Time: 8.77 seconds, Memory: 7.25Mb
-    
-    OK (1 test, 3 assertions)
+    $ bin/phpunit
+    PHPUnit 4.7.6 by Sebastian Bergmann and contributors.
+
+    ..
+
+    Time: 2.82 seconds, Memory: 7.00Mb
+
+    OK (2 tests, 5 assertions)
 
 ## Code explanation
 
@@ -68,8 +68,8 @@ for the initial setup,
 and [this one](http://whateverthing.com/blog/2013/09/01/quick-web-apps-part-five/) for writing the unit test.
 
 For improving the application's project structure I read
-[this post](http://php-and-symfony.matthiasnoback.nl/2012/01/silex-getting-your-project-structure-right/),
-[these slides](http://www.slideshare.net/ctankersley/complex-sites-with-silex) and used
+[this post](http://php-and-symfony.matthiasnoback.nl/2012/01/silex-getting-your-project-structure-right/)
+and [these slides](http://www.slideshare.net/ctankersley/complex-sites-with-silex), and I used
 [this project](https://github.com/willgarcia/silex-api-boilerplate) as boilerplate.
 
 The code and the instructions were tested under OSX 10.10.1 and Linux Mint 17.1.

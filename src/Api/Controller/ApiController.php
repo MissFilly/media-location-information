@@ -48,6 +48,11 @@ class ApiController
         return $location_data;
     }
 
+    public function indexAction(Request $request, Application $app)
+    {
+        return 'Use the `/media/{media_id}` endpoint.';
+    }
+
     public function apiAction(Request $request, Application $app, $media_id)
     {
 

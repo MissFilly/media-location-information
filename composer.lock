@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ac9d5f0fa177feff2ba9a93b7fe9aa8a",
+    "hash": "b74e7d04a440b1742e1ae4a3ec82383f",
     "packages": [
         {
             "name": "cosenary/instagram",
